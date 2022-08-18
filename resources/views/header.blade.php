@@ -90,11 +90,10 @@
                             <div class="modal-content">
                                 <div class="container main-search-active">
                                     <div class="sidebar-search-input">
-                                        <form action="{{URL::to('/tim-kiem')}}" class="search-bar" method="POST" role="search">
-                                            {{csrf_field()}}
+                                        <form action="{{route('search_product')}}" class="search-bar" method="GET" role="search">
                                             <div class="form-search">
-                                                <input type="search" name="keywords_sumbmit" placeholder="Tìm Kiếm Sản Phẩm" class="input-text" id="search">
-                                                <button type="submit" name="search_items" class="search-btn"><i class="fas fa-search"></i></button>
+                                                <input type="search" name="ten_san_pham" placeholder="Tìm Kiếm Sản Phẩm" class="input-text" id="search">
+                                                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
                                             </div>
                                             <div class="search-close">
                                                 <!-- <button type="button" class="close" data-dismiss="modal"><i

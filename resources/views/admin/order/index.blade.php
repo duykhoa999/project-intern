@@ -57,12 +57,12 @@
                     @if(isset($ord['bills']))
                     <tr>
                         <td>
-                            <a href="{{URL::to('/view-order/'.$ord->id_pd)}}" class="active styling-edit" ui-toggle-class="">
+                            <a href="{{route('admin.order.show', ['orderId' => $ord->id_pd])}}" class="active styling-edit" ui-toggle-class="">
                                 {{$ord['bills']->ma_hd}}</a>
                         </td>
                         <td>{{ $ord->ho_ten_nn }}</td>
                         @if(isset($ord['bills']))
-                        <td>{{ $ord['bills']->tong_tien }}</td>
+                        <td>{{ number_format($ord['bills']->tong_tien, 0, ',', '.') }}</td>
                         @else
                         <td></td>
                         @endif
@@ -85,7 +85,7 @@
                             <button type="button" class="btn btn-success setNV-edit-button" title="Phân công nhân viên" id="clickme" fee-id={{$ord->id_pd}} fee-hd ={{$ord['bills']->ma_hd}}>
                                 <i class="fa fa-arrow-up"></i></button>
                             @endif
-                            <a href="{{URL::to('/view-order/'.$ord->id_pd)}}" class="active styling-edit" ui-toggle-class="">
+                            <a href="{{route('admin.order.show', ['orderId' => $ord->id_pd])}}" class="active styling-edit" ui-toggle-class="">
                                 <i class="fa fa-eye text-success text-active"></i></a>
 
                             <a onclick="return confirm('Bạn có chắc là muốn xóa đơn hàng này ko?')" href="{{URL::to('/delete-order/'.$ord->id_pd)}}" class="active styling-edit" ui-toggle-class="">

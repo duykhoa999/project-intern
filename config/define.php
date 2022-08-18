@@ -55,6 +55,7 @@ return [
 			'trademark' =>'admin.trademark',
 			'category' =>'admin.category',
 			'order' =>'admin.order',
+			'company_order' =>'admin.company_order',
 		]
 	],
 	'regex' => [
@@ -76,6 +77,7 @@ return [
         'list_order_user' => 10,
         'product_view'=>18,
         'manufactures_index'=>10,
+        'company_order_index'=>10,
 	],
     'expires_time' => 5,
     'image_backup' => 'assets/images/avatar.png',

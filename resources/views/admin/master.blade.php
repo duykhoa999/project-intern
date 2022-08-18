@@ -40,6 +40,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{asset('backend/js/jquery2.0.3.min.js')}}"></script>
     <script src="{{asset('backend/js/raphael-min.js')}}"></script>
     <script src="{{asset('backend/js/morris.js')}}"></script>
+    <link href="{{asset('backend/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
 
 </head>
 
@@ -165,8 +166,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             function chart30daysorder() {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{url('/days-order')}}",
-                    method: "POST",
+                    url: "{{route('admin.days-order')}}",
+                    method: "GET",
                     dataType: "JSON",
                     data: {
                         _token: _token
@@ -181,8 +182,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var from_date = $('#datepicker').val();
                 var to_date = $('#datepicker2').val();
                 $.ajax({
-                    url: '{{url("/filter-by-date")}}',
-                    method: 'POST',
+                    url: '{{route('admin.filter-by-date')}}',
+                    method: 'GET',
                     dataType: "JSON",
                     data: {
                         _token: _token,
@@ -201,8 +202,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var _token = $('input[name="_token"]').val();
                 // alert(dashboard_value);
                 $.ajax({
-                    url: "{{url('/dashboard-filter')}}",
-                    method: "POST",
+                    url: "{{route('admin.dashboard-filter')}}",
+                    method: "GET",
                     dataType: "JSON",
                     data: {
                         dashboard_value: dashboard_value,
@@ -293,7 +294,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var _token = $('input[name="_token"]').val();
                 console.log(order_status,id_order)
                 $.ajax({
-                    url: "{{url('/update-order-qty')}}",
+                    url: "{{route('admin.order.update-order-status')}}",
                     method: 'POST',
                     data: {
                         _token: _token,
@@ -531,8 +532,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!-- calendar -->
     <script type="text/javascript" src="{{asset('public/backend/js/monthly.js')}}"></script>
+    <script src="{{asset('backend/select2/dist/js/select2.min.js')}}"></script>
     <script type="text/javascript">
         $(window).load(function() {
+            $('.select2').select2();
 
             $('#mycalendar').monthly({
                 mode: 'event',

@@ -9,13 +9,6 @@
                         <span>Tổng quan</span>
                     </a>
                 </li>
-                <li class="sub-menu">
-                    <a href="{{URL::to('/manage-order')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.order')) ? 'active' : ''}}">
-                        <i class="fa fa-money"></i>
-                        <span>Quản lý đơn hàng</span>
-                    </a>
-
-                </li>
                 <!--<li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -112,8 +105,15 @@
                 </li>
                 <li class="sub-menu"> {{--{{route('all-ddh')}} --}}
                     <a href="{{route('admin.order.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.order')) ? 'active' : ''}}">
-                        <i class="fa fa-book"></i>
-                        <span>Đơn đặt hàng</span>
+                        <i class="fa fa-money"></i>
+                        <span>Đơn đặt hàng của khách hàng</span>
+                    </a>
+
+                </li>
+                <li class="sub-menu"> {{--{{route('all-ddh')}} --}}
+                    <a href="{{route('admin.company_order.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.company_order')) ? 'active' : ''}}">
+                        <i class="fa fa-money"></i>
+                        <span>Đặt hàng từ nhà cung cấp</span>
                     </a>
 
                 </li>

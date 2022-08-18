@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CompanyOrderController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 // Home Page
 Route::group(['middleware' => 'customer'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/tim-kiem', [HomeController::class, 'search_product'])->name('search_product');
     Route::get('/danh-muc-san-pham/{id}', [HomeController::class, 'show_category'])->name('show-category');
     Route::get('/thuong-hieu/{id}', [HomeController::class, 'show_brand'])->name('show-brand');
     Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'details_product'])->name('show-detail-product');
@@ -62,9 +64,14 @@ Route::group(['middleware' => 'customer'], function() {
 Route::get('/dang-nhap', [LoginController::class, 'getLogin'])->name('getLogin');
 Route::post('/dang-nhap', [LoginController::class, 'postLogin'])->name('postLogin');
 Route::get('/dang-xuat', [LoginController::class, 'getLogout'])->name('logout');
+Route::get('/dang-ki-tai-khoan', [LoginController::class, 'getRegister'])->name('getRegister');
+Route::post('/dang-ki-tai-khoan', [LoginController::class, 'postRegister'])->name('postRegister');
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('index');
+    Route::get('/filter-by-date', [AdminController::class, 'filter_by_date'])->name('filter-by-date');
+    Route::get('/dashboard-filter', [AdminController::class, 'dashboard_filter'])->name('dashboard-filter');
+    Route::get('/days-order', [AdminController::class, 'days_order'])->name('days-order');
 
     //Manufacture
     Route::get('/manufactures', [ManufactureController::class, 'index'])->name('manufacture.index');
@@ -110,8 +117,17 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
     Route::get('/orders/create', [OrderController::class, 'create'])->name('order.create');
     Route::post('/orders', [OrderController::class, 'store'])->name('order.store');
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show');
     Route::put('/orders/{id}', [OrderController::class, 'update'])->name('order.update');
     Route::delete('/orders/{id}', [OrderController::class, 'delete'])->name('order.delete');
-    Route::post('/set-employee-order', [OrderController::class, 'set-employee-order'])->name('order.set-employee-order');
+    Route::post('/set-employee-order', [OrderController::class, 'set_employee_order'])->name('order.set-employee-order');
+    Route::post('/update-order-status', [OrderController::class, 'update_order_status'])->name('order.update-order-status');
+
+    //COrder
+    Route::get('/company_orders', [CompanyOrderController::class, 'index'])->name('company_order.index');
+    Route::get('/company_orders/create', [CompanyOrderController::class, 'create'])->name('company_order.create');
+    Route::post('/company_orders', [CompanyOrderController::class, 'store'])->name('company_order.store');
+    Route::get('/company_orders/{id}', [CompanyOrderController::class, 'show'])->name('company_order.show');
+    Route::put('/company_orders/{id}', [CompanyOrderController::class, 'update'])->name('company_order.update');
+    Route::delete('/company_orders/{id}', [CompanyOrderController::class, 'delete'])->name('company_order.delete');
 });

@@ -41,9 +41,9 @@ class CustomerController extends AppController
     {
         $user = Session::get('user');
 
-        $history_order = Order::with(['order_details','bills'])->orderby('id_pd', 'desc')->paginate(5);
+        $history_order = Order::where('ma_kh', '=', $user->ma_kh)->with(['order_details','bills'])->orderby('id_pd', 'desc')->paginate(5);
         $user = Customer::find($user->ma_kh);
-        
+
         return view('user.profile.index')->with('user', $user)->with('history_order', $history_order);
     }
 

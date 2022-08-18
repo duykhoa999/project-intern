@@ -82,7 +82,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- // thống kê trạng thái đơn hàng -->
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function() {
             Morris.Donut({
                 element: 'donut-example',
@@ -119,10 +119,9 @@
                 label: "Tổng Sản Phẩm ",
                 value: <?php echo $total_product ?? '' ?>
             }]
-        });
+            });
         });
     </script>
-    <!-- // tổng sản phẩm tồn của toàn bộ  -->
     <script type="text/javascript">
         Morris.Donut({
             element: 'donut-product',

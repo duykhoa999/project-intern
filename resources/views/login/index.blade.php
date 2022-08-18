@@ -84,10 +84,10 @@
                         </div>
                         <div class="form-group flex">
                             <div class="col-xs-6 col-md-6 col-lg-6 form-item center">
-                                <a href="{{URL::to('/signup-checkout')}}" class="creat btn-login">Tạo Tài Khoản </a>
+                                <a href="{{route('getRegister')}}" class="creat btn-login">Tạo Tài Khoản </a>
                             </div>
                             <div class="col-xs-6 col-md-6 col-lg-6 form-item center">
-                                <a href="{{('/')}}" class="creat btn-login">Trang Chủ </a>
+                                <a href="{{route('home')}}" class="creat btn-login">Trang Chủ </a>
                             </div>
                         </div>
                     </form>

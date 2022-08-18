@@ -43,4 +43,14 @@ class HomeController extends AppController
         $category_name = DB::table('loai_ruou')->where('ma_lr', $category_id)->first();
         return view('user.show_category', compact('category_name', 'category_by_id'));
     }
+
+    // tìm kiếm trang chủ
+    public function search_product(request $request)
+    {
+        $keywords = $request->ten_san_pham;
+        $keywords = preg_replace('/\s\s+/', ' ', $keywords);
+       
+        $search_product = DB::table('dong_ruou')->where('ten_dr', 'like', '%' . $keywords . '%')->orderby('dong_ruou.ma_dr', 'desc')->simplePaginate(config('define.paginate.product_view'));
+        return view('user.search.search_product')->with('search_product', $search_product);
+    }
 }

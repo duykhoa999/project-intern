@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Models\Customer;
 use App\Services\CustomerService;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends AppController
 {
@@ -65,5 +71,37 @@ class LoginController extends AppController
             session()->put('user', $user);
             return "customer";
         }
+    }
+
+    public function getRegister()
+    {
+        $guard = session()->get('guard');
+        
+        if (Auth::guard($guard)->check()) {
+            return redirect()->route('home');
+        }
+
+        return view('login.register');
+    }
+
+    public function postRegister(RegisterRequest $request)
+    {
+        $data = $request->all();
+
+        $data['ma_q'] = 'KH';
+        $min = 002;
+        $max = 999;
+        $data['ma_kh'] =  'kh_'.mt_rand($min,$max);
+        $data['password'] =  Hash::make($data['password']);
+
+        try {
+            Customer::create($data)->save();
+        } catch(Exception $e) {
+            Log::error($e->getMessage());
+
+            return redirect()->route('getRegister')->with('error', 'Đăng kí không thành công! Vui lòng thử lại!');
+        }
+
+        return redirect()->route('getRegister')->with('success', 'Đăng kí thành công! Bạn có thể đăng nhập và mua hàng ngay bây giờ!');
     }
 }

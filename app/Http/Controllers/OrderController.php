@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
 class OrderController extends AppController
@@ -64,5 +66,32 @@ class OrderController extends AppController
 
         $message ="Phân công nhân viên thành công!";
         return response()->json(['message'=>$message,'status'=>$status]);
+    }
+
+    public function show($orderId = null)
+    {
+        $ho_ten_nv = '';
+        $order_by_id =OrderDetail::where('id_pd',$orderId)->with(['order','products','bills'])->orderby('id_pd', 'desc')->get();
+        if(isset($order_by_id['0']['order']['0']->ma_nv))
+        {
+            $employee = DB::table('nhan_vien')->where('ma_nv',$order_by_id['0']['order']['0']->ma_nv)->first();
+            $ho_ten_nv = $employee->ho_ten;
+        }
+        $all_user = DB::table('khach_hang')->get();
+
+        return view('admin.order.show')->with('order_by_id', $order_by_id)->with('all_user', $all_user)->with('ho_ten_nv', $ho_ten_nv);
+    }
+
+    public function update_order_status(Request $request)
+    {
+        $data = $request->all();
+        $order = Order::find($data['id_pd']);
+        if($order->trang_thai == 4)
+        {
+            Session::put('message', 'Đơn hàng đã được khách hàng hủy, không thể xác nhận đơn');
+            return redirect()->route('admin.order.index');
+        }
+        $order->trang_thai = $data['order_status'];
+        $order->save();
     }
 }
