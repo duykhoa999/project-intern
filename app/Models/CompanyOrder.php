@@ -28,9 +28,9 @@ class CompanyOrder extends Model
      */
     protected $keyType = 'string';
 
-    // public function order_details() {
-    //     return $this->belongsTo(OrderDetail::class, 'id_pd', 'id_pd');
-    // }
+    public function order_details() {
+        return $this->belongsTo(CompanyOrderDetail::class, 'ma_ddh', 'ma_ddh');
+    }
     public function manufacture()
     {
         return $this->hasOne(Manufacture::class, 'ma_ncc', 'ma_ncc');

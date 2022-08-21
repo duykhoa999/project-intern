@@ -4,49 +4,80 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                Thông tin Khách Hàng
+                Thông tin hàng hoá
             </div>
-
+            <div class="row w3-res-tb">
+                <form style="float: right" action="{{ route('admin.company_order.show', ['id' => $company_order->ma_ddh]) }}" method="get">
+                    <div class="group-input f-r">
+                        <input type="text" name="key_search" value="{{ $key_search ?? '' }}" placeholder="Tìm kiếm">
+                        <button class="btn btn-primary" type="submit">Tìm Kiếm</button>
+                    </div>
+                </form>
+            </div>
             <div class="table-responsive">
-                <?php
-                $message = Session::get('message');
-                if ($message) {
-                    echo '<span class="text-alert">' . $message . '</span>';
-                    Session::put('message', null);
-                }
-                ?>
-
-                <table class="table table-striped b-t b-light">
-                    <thead>
-                        <tr>
-
-                            <th>Tên khách hàng</th>
-                            <th>Số điện thoại</th>
-                            <th>Email</th>
-
-
-                            <th style="width:30px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($all_user as $user)
-                            @if (isset($order_by_id['0']['order']) && $order_by_id['0']['order']['0']->ma_kh == $user->ma_kh)
+                @if (session('message_add'))
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error_add') }}
+                    </div>
+                @endif
+                <form action="{{route('admin.company_order.add_detail', ['id' => $company_order->ma_ddh])}}" method="POST">
+                    {{csrf_field()}}
+                    <table class="table table-striped b-t b-light" id="myTable">
+                        <thead>
+                            <tr>
+                                <th style="width:20px;">
+                                </th>
+                                <th>Tên sản phẩm</th>
+                                <th>Hình ảnh</th>
+                                <th>Thương hiệu</th>
+                                <th>Số lượng tồn</th>
+                                <th>Giá đặt</th>
+                                <th>Số lượng đặt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($all_product as $key => $pro)
                                 <tr>
-                                    <td>{{ $user->ho_ten }}</td>
-                                    <td>{{ $user->sdt }}</td>
-                                    <td>{{ $user->email }}</td>
-                                </tr>
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
+                                    <td>
+                                        <input type="checkbox" class="checkBox" data-id="{{$pro->ma_dr}}" name="data[{{$pro->ma_dr}}][check]" {{(!empty($session_order) && array_key_exists($pro->ma_dr ,$session_order)) ? 'checked' : '' }}>
+                                    </td>
 
+                                    <td>{{ $pro->ten_dr }}</td>
+                                    <input type="hidden" name="data[{{$pro->ma_dr}}][ten_dr]" id="name_{{$pro->ma_dr}}" value="{{$pro->ten_dr}}">
+                                    <td><img src="/uploads/product/{{ $pro->hinh_anh }}" height="100px" width="100px"></td>
+                                    <td>{{ $pro->thuong_hieu->ten_th }}</td>
+                                    <td>{{ $pro->sl_ton }}</td>
+                                    <td><input style="vertical-align: center;" value="{{(!empty($session_order) && array_key_exists($pro->ma_dr ,$session_order)) ? $session_order[$pro->ma_dr]['gia'] : '' }}" type="number" min="1" step="0.1" id="price_{{$pro->ma_dr}}" name="data[{{$pro->ma_dr}}][gia_dat]"></td>
+                                    <td><input style="vertical-align: center;" type="number" value="{{(!empty($session_order) && array_key_exists($pro->ma_dr ,$session_order)) ? $session_order[$pro->ma_dr]['so_luong'] : '' }}" min="1" id="qty_{{$pro->ma_dr}}" name="data[{{$pro->ma_dr}}][so_luong]"></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-success">Xác nhận</button>
+                </form>
             </div>
+            <footer class="panel-footer">
+                <div class="row">
+
+                    <div class="col-sm-5 text-center">
+                        <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
+                    </div>
+                    <div class="col-sm-7 text-right text-center-xs">
+                        <ul class="pagination pagination-sm m-t-none m-b-none">
+                            {!! $all_product->links() !!}
+                        </ul>
+                    </div>
+                </div>
+            </footer>
 
         </div>
     </div>
     <br>
-    <br><br>
     <div class="table-agile-info">
 
         <div class="panel panel-default">
@@ -55,24 +86,25 @@
             </div>
 
             <div class="table-responsive">
-                <?php
-                $message = Session::get('message');
-                if ($message) {
-                    echo '<span class="text-alert">' . $message . '</span>';
-                    Session::put('message', null);
-                }
-                ?>
+                @if (session('message_edit'))
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
+                @endif
+                @if (session('error_edit'))
+                    <div class="alert alert-danger">
+                        {{ session('error_add') }}
+                    </div>
+                @endif
 
                 <table class="table table-striped b-t b-light">
                     <thead>
 
                         <tr>
                             <th>Tên sản phẩm</th>
-                            <th>Mã Đơn Hàng</th>
-                            <!-- <th>Phí ship hàng</th> -->
+                            <th>Mã Đơn Đặt Hàng</th>
                             <th>Số lượng</th>
-                            <th>Giá bán</th>
-                            <!-- <th>Giá gốc</th> -->
+                            <th>Giá đặt</th>
                             <th>Tổng tiền</th>
 
                             <th style="width:30px;"></th>
@@ -82,7 +114,7 @@
                         @php
                             $i = 0;
                         @endphp
-                        @foreach ($order_by_id as $details)
+                        @foreach ($company_order_detail as $details)
                             @php
                                 $i++;
                             @endphp
@@ -92,18 +124,10 @@
                                 @else
                                     <td></td>
                                 @endif
-                                @if (isset($details['bills']['0']))
-                                    <td>{{ $details['bills']['0']->ma_hd }}</td>
-                                @else
-                                    <td></td>
-                                @endif
+                                <td>{{ $company_order->ma_ddh }}</td>
                                 <td>{{ $details->so_luong }}</td>
-                                <td>{{ $details->gia }}</td>
-                                @if (isset($details['bills']['0']))
-                                    <td>{{ $details['bills']['0']->tong_tien }}</td>
-                                @else
-                                    <td></td>
-                                @endif
+                                <td>{{ number_format($details->gia, 0, ',', ',') }} VND</td>
+                                <td>{{ number_format($details->gia * $details->so_luong, 0, ',', ',') }} VND</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -154,7 +178,34 @@
             </div>
 
         </div>
-        <a type="button" class="btn btn-success" href="{{route('admin.order.index')}}">Trở về</a>
+        <a type="button" class="btn btn-success" href="{{ route('admin.order.index') }}">Trở về</a>
     </div>
 
 @endsection
+<script src="{{asset('backend/js/jquery.min.js')}}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".checkBox").click(function () {
+            if($(this).is(':checked')) {
+                id = $(this).data('id');
+                qty = $('#qty_' + id).val();
+                price = $('#price_' + id).val();
+                $.ajax({ 
+                    url: "{{ route('admin.company_order.saveSession') }}",
+                    type: 'GET',
+                    data: {
+                        ma_dr: id,
+                        so_luong: qty,
+                        gia: price
+                    },
+                    // method: 'GET',
+                    // dataType: "JSON",
+                    success: function(response){
+                        
+                    }
+                });
+            }
+        });
+    });
+</script> 

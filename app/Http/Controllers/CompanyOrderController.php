@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyOrderRequest;
 use App\Models\CompanyOrder;
+use App\Models\CompanyOrderDetail;
 use App\Models\COrder;
 use App\Models\Manufacture;
+use App\Models\Product;
 use App\Services\CompanyOrderService;
+use App\Services\ProductService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -15,12 +18,14 @@ use Illuminate\Support\Facades\View;
 class CompanyOrderController extends AppController
 {
     protected $companyOrderService;
+    protected $productService;
 
-    public function __construct(CompanyOrderService $companyOrderService)
+    public function __construct(CompanyOrderService $companyOrderService, ProductService $productService)
     {
         parent::__construct();
         View::share('controller', config('define.controller.admin.company_order'));
         $this->companyOrderService = $companyOrderService;
+        $this->productService = $productService;
     }
 
     /**
@@ -87,9 +92,24 @@ class CompanyOrderController extends AppController
      * @param  \App\Models\COrder  $cOrder
      * @return \Illuminate\Http\Response
      */
-    public function show()
-    {
-        
+    public function show(Request $request,$id = null)
+    {//Session::forget('company_order');
+        $company_order = CompanyOrder::find($id);
+
+        $query = CompanyOrderDetail::where('ma_ddh',$id)->with(['company_order','products'])->orderby('ma_ddh', 'desc');
+
+        $company_order_detail = $query->get();
+
+        $session_order = Session::get('company_order');
+        $key_search='';
+
+        $key_search = $request->input('key_search');
+        $all_product = $this->productService->getDataIndex($key_search);
+        if ($key_search) {
+            $all_product->withPath(route('admin.company_order.show', ['id' => $id]) . '?key_search=' . $key_search);
+        }
+
+        return view('admin.company_order.show',compact('all_product', 'session_order', 'company_order', 'company_order_detail'));
     }
 
     /**
@@ -126,14 +146,46 @@ class CompanyOrderController extends AppController
         //
     }
 
-    public function add_detail(Request $request)
+    public function add_detail($id = null)
     {
-        $data = $request->all();
+        $company_order = Session::get('company_order');
 
-        if (!empty($data)) {
-            foreach($data as $k => $item) {
-                
+        if (!empty($company_order)) {
+            foreach($company_order as $k => $item) {
+                $data_detail = [
+                    'ma_ddh' => $id,
+                    'ma_dr' => $k,
+                    'so_luong' => $item['so_luong'] ?? 0,
+                    'gia' => $item['gia'] ?? 0,
+                ];
+                $query = CompanyOrderDetail::where('ma_ddh', '=', $id)->where('ma_dr', '=', $k);
+                if (empty($query->first())) {
+                    CompanyOrderDetail::create($data_detail)->save();
+                }
+                else {
+                    $query->update($data_detail);
+                }
             }
         }
+
+        Session::forget('company_order');
+
+        return redirect()->route('admin.company_order.show', ['id' => $id])->with('message_add', 'Thêm chi tiết đơn đặt hàng thành công!');
+    }
+
+    public function saveSession(Request $request)
+    {
+        $data = Session::get('company_order');
+        if (empty($data)) {
+            $data = [];
+        }
+        $data[$request->ma_dr] = [
+            'so_luong' => $request->so_luong,
+            'gia' => $request->gia
+        ];
+
+        Session::put('company_order', $data);
+        
+        return response()->json(['session successfully saved']);
     }
 }

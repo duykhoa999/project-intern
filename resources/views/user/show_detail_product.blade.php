@@ -100,7 +100,7 @@
                                 @endif
                                 <!-- <button style="cursor: pointer;" type="submit" data-id_product="{{$product->id_products}}" name="add-to-cart" class="btn btn-primary btn-sm add-to-cart">Thêm Giỏ Hàng</button> -->
                                 <div class="note">
-                                    <p style="font-size: 24px;"><b>Tình Trạng:</b> Còn Hàng</p>
+                                    <p style="font-size: 24px;"><b>Tình Trạng:</b>{{$product->sl_ton == 0 ? 'Hết hàng' : 'Còn hàng'}}</p>
                                     <p style="font-size: 24px;"><b>Điều kiện:</b> Mới 100%</p>
                                     <p style="font-size: 24px;"><b>Số lượng kho còn: </b>
                                         @if($product->sl_ton ==0)

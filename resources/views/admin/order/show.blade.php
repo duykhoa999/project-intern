@@ -154,9 +154,9 @@
                                     <td></td>
                                 @endif
                                 <td>{{ $details->so_luong }}</td>
-                                <td>{{ $details->gia }}</td>
+                                <td>{{ number_format($details->gia, 0, ',', ',') }} VND</td>
                                 @if (isset($details['bills']['0']))
-                                    <td>{{ $details['bills']['0']->tong_tien }}</td>
+                                    <td>{{ number_format($details['bills']['0']->tong_tien, 0, ',', ',') }} VND</td>
                                 @else
                                     <td></td>
                                 @endif

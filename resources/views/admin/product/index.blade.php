@@ -58,7 +58,7 @@
                                 <td><img src="/uploads/product/{{ $pro->hinh_anh }}" height="100px" width="100px"></td>
                                 <td>{{ $pro->sl_ton }}</td>
                                 <td>{{ $pro->slug }}</td>
-                                <td>{{ number_format($pro->gia, 0, ',', '.') }}đ</td>
+                                <td>{{ number_format($pro->gia, 0, ',', ',') }}đ</td>
                                 <td>{{ $pro->loai_ruou->ten_lr }}</td>
                                 <td>{{ $pro->thuong_hieu->ten_th }}</td>
 

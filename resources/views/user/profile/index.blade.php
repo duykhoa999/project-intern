@@ -100,7 +100,7 @@
                                                             <td></td>
                                                         @endif
                                                         @if (isset($order['bills']))
-                                                            <td>{{ $order['bills']->tong_tien }}</td>
+                                                            <td>{{ number_format($order['bills']->tong_tien,0,',',',') }} VND</td>
                                                         @else
                                                             <td></td>
                                                         @endif

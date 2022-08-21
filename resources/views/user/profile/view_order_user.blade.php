@@ -150,8 +150,8 @@
                         <td></td>
                         @endif
                         <td>{{$details->so_luong}}</td>
-                        <td>{{number_format($details->gia,0,',','.')}} VNĐ</td>
-                        <td>{{number_format(($details->so_luong * $details->gia),0,',','.')}} VNĐ</td>
+                        <td>{{number_format($details->gia,0,',',',')}} VNĐ</td>
+                        <td>{{number_format(($details->so_luong * $details->gia),0,',',',')}} VNĐ</td>
                         <td></td>
 
                     </tr>
@@ -161,7 +161,7 @@
             </table>
             <div style="display: flex;">
                 <h3>Tổng Tiền phải thanh toán : </h3>
-                <span style="color: red;font-weight: 700; padding-left: 10px; font-size: 24px;">{{number_format($order_by_id['0']['bills']['0']->tong_tien,0,',','.')}} VNĐ</span>
+                <span style="color: red;font-weight: 700; padding-left: 10px; font-size: 24px;">{{number_format($order_by_id['0']['bills']['0']->tong_tien,0,',',',')}} VNĐ</span>
 
             </div>
             <div style="display: flex;">

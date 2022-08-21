@@ -62,7 +62,7 @@
                         </td>
                         <td>{{ $ord->ho_ten_nn }}</td>
                         @if(isset($ord['bills']))
-                        <td>{{ number_format($ord['bills']->tong_tien, 0, ',', '.') }}</td>
+                        <td>{{ number_format($ord['bills']->tong_tien, 0, ',', ',') }} VND</td>
                         @else
                         <td></td>
                         @endif

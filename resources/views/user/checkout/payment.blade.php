@@ -49,7 +49,7 @@
                                         <td class="product-thumbnail"> <a href=""><img style="width: 100px; height:130px;" src="{{URL::to('uploads/product/'.$cart['product_image'])}}" alt=""></a></td>
                                         <td class="product-thumbnail"> <a href="">{{$cart['product_name']}}</a></td>
                                         <td class="product-price">
-                                            <span class="price">{{number_format($cart['product_price'],0,',','.')}}VNĐ</span>
+                                            <span class="price">{{number_format($cart['product_price'],0,',',',')}}VNĐ</span>
                                         </td>
                                         <td class="amount">
                                             <input type="number" value="{{$cart['product_qty']}}" min="1" max="{{$cart['product_quantity']}}" class="cart_quantity" name="cart_qty[{{$cart['session_id']}}]" id="" disabled>
@@ -57,7 +57,7 @@
                                         </td>
                                         <td class="product-subtotal" data-title="tạm tính">
                                             <span class="total-price">
-                                                {{number_format($subtotal,0,',','.')}}VNĐ
+                                                {{number_format($subtotal,0,',',',')}}VNĐ
                                             </span>
                                         </td>
                                     </tr>
@@ -121,7 +121,7 @@
 
                                 </tr>
                                 <tr class="cart-subtotal">
-                                    <th style="font-weight: 300;">{{number_format($total,0,',','.')}} VNĐ</th>
+                                    <th style="font-weight: 300;">{{number_format($total,0,',',',')}} VNĐ</th>
                                     @php
                                     $total_usd= $total/23000;
                                     @endphp
@@ -154,7 +154,7 @@
                             <div class="payment">
                                 <input type="submit" value="Đặt Hàng" class="checkout-button button" name="send_order_place">
                             </div>
-                            <input type="hidden" name="order_total" value="{{number_format($total,0,',','.')}}">
+                            <input type="hidden" name="order_total" value="{{number_format($total,0,',',',')}}">
                         </form>
                     </div>
                 </div>

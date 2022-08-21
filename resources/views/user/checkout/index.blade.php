@@ -125,7 +125,7 @@
                                                     <th>Tạm tính :</th>
                                                     <td data-title="Tạm tính">
                                                         <span class="amount">
-                                                            {{ number_format($total, 0, ',', '.') }}VNĐ</span>
+                                                            {{ number_format($total, 0, ',', ',') }}VNĐ</span>
                                                     </td>
                                                 </tr>
                                                 <tr class="cart-subtotal-one">
@@ -148,7 +148,7 @@
                                                             $total_coupon = ($total * $cou['coupon_number']) / 100;
                                                             echo '
                                                 ' .
-                                                                number_format($total_coupon, 0, ',', '.') .
+                                                                number_format($total_coupon, 0, ',', ',') .
                                                                 'VNĐ';
                                                         @endphp</span>
                                                     </td>
@@ -157,7 +157,7 @@
                                                     <th>Tổng :</th>
                                                     <td data-title="Tạm tính">
                                                         <span class="amount">
-                                                            {{ number_format($total - $total_coupon, 0, ',', '.') }}VNĐ
+                                                            {{ number_format($total - $total_coupon, 0, ',', '') }}VNĐ
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -166,7 +166,7 @@
                                                     <th>Tạm tính :</th>
                                                     <td data-title="Tạm tính">
                                                         <span class="amount">
-                                                            {{ number_format($total, 0, ',', '.') }}VNĐ</span>
+                                                            {{ number_format($total, 0, ',', '') }}VNĐ</span>
                                                     </td>
                                                 </tr>
                                                 <tr class="cart-subtotal-one ">
@@ -188,7 +188,7 @@
                                                             $total_coupon = $cou['coupon_number'];
                                                             echo '
                                                 ' .
-                                                                number_format($total_coupon, 0, ',', '.') .
+                                                                number_format($total_coupon, 0, ',', ',') .
                                                                 'VNĐ';
                                                         @endphp</span>
                                                     </td>
@@ -197,7 +197,7 @@
                                                     <th>Tổng :</th>
                                                     <td data-title="Tạm tính">
                                                         <span class="amount">
-                                                            {{ number_format($total - $total_coupon, 0, ',', '.') }}VNĐ
+                                                            {{ number_format($total - $total_coupon, 0, ',', ',') }}VNĐ
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -207,7 +207,7 @@
                                         <tr class="cart-subtotal-one">
                                             <th>Tạm tính :</th>
                                             <td data-title="Tạm tính">
-                                                <span class="amount"> {{ number_format($total, 0, ',', '.') }}VNĐ</span>
+                                                <span class="amount"> {{ number_format($total, 0, ',', ',') }}VNĐ</span>
                                             </td>
                                         </tr>
                                         <tr class="cart-subtotal-one ">
@@ -229,7 +229,7 @@
                                             <th>Tổng :</th>
                                             <td data-title="Tạm tính">
                                                 <span class="amount">
-                                                    {{ number_format($total, 0, ',', '.') }}VNĐ
+                                                    {{ number_format($total, 0, ',', ',') }}VNĐ
                                                 </span>
                                             </td>
                                             <input type="hidden" name="tong_tien" value="{{ $total }}">

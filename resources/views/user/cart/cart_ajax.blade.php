@@ -96,7 +96,7 @@
                                                             href="">{{ $cart['product_name'] }}</a></td>
                                                     <td class="product-price">
                                                         <span
-                                                            class="price">{{ number_format($cart['product_price'], 0, ',', '.') }}VNĐ</span>
+                                                            class="price">{{ number_format($cart['product_price'], 0, ',', ',') }}VNĐ</span>
                                                     </td>
                                                     <td class="amount">
                                                         <input type="number" value="{{ $cart['product_qty'] }}"
@@ -108,7 +108,7 @@
                                                     </td>
                                                     <td class="product-subtotal" data-title="tạm tính">
                                                         <span class="total-price">
-                                                            {{ number_format($subtotal, 0, ',', '.') }}VNĐ
+                                                            {{ number_format($subtotal, 0, ',', ',') }}VNĐ
                                                         </span>
                                                     </td>
                                                 </tr>

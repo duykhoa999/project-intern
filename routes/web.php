@@ -130,4 +130,6 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::get('/company_orders/{id}', [CompanyOrderController::class, 'show'])->name('company_order.show');
     Route::put('/company_orders/{id}', [CompanyOrderController::class, 'update'])->name('company_order.update');
     Route::delete('/company_orders/{id}', [CompanyOrderController::class, 'delete'])->name('company_order.delete');
+    Route::post('/company_orders/add_detail/{id}', [CompanyOrderController::class, 'add_detail'])->name('company_order.add_detail');
+    Route::get('/saveSession', [CompanyOrderController::class, 'saveSession'])->name('company_order.saveSession');
 });

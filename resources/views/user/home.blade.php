@@ -109,9 +109,9 @@
                 <div class="row">
                     <div class="col">
                         <div class="category">
-                            <div class="category-title">
+                            {{-- <div class="category-title">
                                 <h2>SẢN PHẨM NỔI BẬT</h2>
-                            </div>
+                            </div> --}}
                             <div class="category-section">
                                 <form method="POST">
                                     @csrf
@@ -132,7 +132,7 @@
                                                     class="cart_product_image_{{ $product->ma_dr }}">
 
                                                 <input type="hidden" id="wishlist_productprice{{ $product->ma_dr }}"
-                                                    value="{{ number_format($product->gia, 0, ',', '.') }}VNĐ">
+                                                    value="{{ number_format($product->gia, 0, ',', ',') }}VNĐ">
 
                                                 <input type="hidden" value="{{ $product->gia }}"
                                                     class="cart_product_price_{{ $product->ma_dr }}">
@@ -218,7 +218,7 @@
                                                     class="cart_product_image_{{ $product->ma_dr }}">
 
                                                 <input type="hidden" id="wishlist_productprice{{ $product->ma_dr }}"
-                                                    value="{{ number_format($product->gia, 0, ',', '.') }}VNĐ">
+                                                    value="{{ number_format($product->gia, 0, ',', ',') }}VNĐ">
                                                 {{-- @if (isset($product->coupon_details) && $product->coupon_details->phantram_km > 0)
                                                     <input type="hidden"
                                                         value="{{ $product->gia - ($product->gia * $product->coupon_details->phantram_km) / 100 }}"
