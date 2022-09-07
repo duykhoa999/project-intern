@@ -219,14 +219,14 @@
 
                                                 <input type="hidden" id="wishlist_productprice{{ $product->ma_dr }}"
                                                     value="{{ number_format($product->gia, 0, ',', ',') }}VNĐ">
-                                                {{-- @if (isset($product->coupon_details) && $product->coupon_details->phantram_km > 0)
+                                                @if (isset($product->coupon_details) && $product->coupon_details->phantram_km > 0  && $product->coupon_details->so_luong > 0)
                                                     <input type="hidden"
                                                         value="{{ $product->gia - ($product->gia * $product->coupon_details->phantram_km) / 100 }}"
                                                         class="cart_product_price_{{ $product->ma_dr }}">
-                                                @else --}}
+                                                @else
                                                     <input type="hidden" value="{{ $product->gia }}"
                                                         class="cart_product_price_{{ $product->ma_dr }}">
-                                                {{-- @endif --}}
+                                                @endif
                                                 <input type="hidden" value="1"
                                                     class="cart_product_qty_{{ $product->ma_dr }}">
                                                 <div class="item-category col-xl-2 col-lg-3 col-md-6 col-sm-6 col-12">
@@ -254,17 +254,17 @@
                                                         <h3><a href="{{route('show-detail-product', ['id' => $product->ma_dr])}}">{{ $product->ten_dr }}</a></h3>
                                                         <!-- <p> Mã số: 0020234</p> -->
                                                         <div class="price-item">
-                                                            {{-- @if (isset($product->coupon_details) && $product->coupon_details->phantram_km > 0)
-                                                                <span
-                                                                    class="price">{{ number_format($product->gia - ($product->gia * $product->coupon_details->phantram_km) / 100) }}
-                                                                    VNĐ</span>
+                                                            @if (isset($product->coupon_details) && $product->coupon_details->phantram_km > 0 && $product->coupon_details->so_luong > 0)
                                                                 <span
                                                                     class="price-discount">{{ number_format($product->gia) }}
                                                                     VNĐ</span>
-                                                            @else --}}
+                                                                <span
+                                                                    class="price">{{ number_format($product->gia - ($product->gia * $product->coupon_details->phantram_km) / 100) }}
+                                                                    VNĐ</span>
+                                                            @else
                                                                 <span
                                                                     class="price">{{ number_format($product->gia) . ' VNĐ' }}</span>
-                                                            {{-- @endif --}}
+                                                            @endif
                                                         </div>
                                                         <?php 
                                                             $user = Session::get('user');

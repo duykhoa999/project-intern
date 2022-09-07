@@ -32,16 +32,7 @@
 
                     </ul>
                 </li>
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-book"></i>
-                        <span>Mã giảm giá</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="{{URL::to('/insert-coupon')}}">Thêm mã giảm giá</a></li>
-                        <li><a href="{{URL::to('/list-coupon')}}">Liệt kê mã giảm giá</a></li>
-                    </ul>
-                </li>
+               
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -103,6 +94,12 @@
                     </a>
 
                 </li>
+                <li class="sub-menu">
+                    <a href="{{route('admin.coupon.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.coupon')) ? 'active' : ''}}">
+                        <i class="fa fa-money"></i>
+                        <span>Khuyến mãi</span>
+                    </a>
+                </li>
                 <li class="sub-menu"> {{--{{route('all-ddh')}} --}}
                     <a href="{{route('admin.order.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.order')) ? 'active' : ''}}">
                         <i class="fa fa-money"></i>
@@ -117,20 +114,29 @@
                     </a>
 
                 </li>
-                <li class="sub-menu"> {{--{{route('all-users')}} --}}
-                    <a href="{{route('admin.customer.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.customer')) ? 'active' : ''}}">
-                        <i class="fa fa-book"></i>
-                        <span>Tài khoản khách hàng</span>
+                <li class="sub-menu"> {{--{{route('all-ddh')}} --}}
+                    <a href="{{route('admin.import.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.import')) ? 'active' : ''}}">
+                        <i class="fa fa-money"></i>
+                        <span>Phiếu nhập</span>
                     </a>
 
                 </li>
-                <li class="sub-menu"> {{--{{route('all-employees')}} --}}
-                    <a href="#" class="{{(isset($controller) && $controller == config('define.controller.admin.employees')) ? 'active' : ''}}">
-                        <i class="fa fa-book"></i>
-                        <span>Tài khoản Nhân viên</span>
-                    </a>
+                @if (trim(session()->get('user')->ma_nv) == 'NV001')
+                    <li class="sub-menu"> {{--{{route('all-users')}} --}}
+                        <a href="{{route('admin.customer.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.customer')) ? 'active' : ''}}">
+                            <i class="fa fa-book"></i>
+                            <span>Quản lý khách hàng</span>
+                        </a>
 
-                </li>
+                    </li>
+                    <li class="sub-menu"> {{--{{route('all-employees')}} --}}
+                        <a href="{{route('admin.user.index')}}" class="{{(isset($controller) && $controller == config('define.controller.admin.user')) ? 'active' : ''}}">
+                            <i class="fa fa-book"></i>
+                            <span>Quản lý Nhân viên</span>
+                        </a>
+
+                    </li>
+                @endif
                <!-- <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rules\Unique;
+use PDOException;
 
 class ProductController extends AppController
 {
@@ -81,10 +82,10 @@ class ProductController extends AppController
         $arr_filter = $this->getArrayFilter();
         $key_search='';
         $arr = array();
-        if(isset($arr_filter['lr'])) $arr['lr'] = $arr_filter['lr'];
-        if(isset($arr_filter['th'])) $arr['th'] = $arr_filter['th'];
-        if(isset($arr_filter['ncc'])) $arr['ncc'] = $arr_filter['ncc'];
-        if(isset($arr_filter['sp_moi'])) $arr['sp_moi'] = $arr_filter['sp_moi'];
+        // if(isset($arr_filter['lr'])) $arr['lr'] = $arr_filter['lr'];
+        // if(isset($arr_filter['th'])) $arr['th'] = $arr_filter['th'];
+        // if(isset($arr_filter['ncc'])) $arr['ncc'] = $arr_filter['ncc'];
+        // if(isset($arr_filter['sp_moi'])) $arr['sp_moi'] = $arr_filter['sp_moi'];
         $cate_product = DB::table('loai_ruou')->orderby('ma_lr', 'desc')->get();
         $brand_product = DB::table('thuong_hieu')->orderby('ma_th', 'ASC')->get();
         $manufacture_product = DB::table('nha_cc')->orderby('ma_ncc', 'ASC')->get();
@@ -255,10 +256,14 @@ class ProductController extends AppController
     {
         $product = Product::find($id);
         if ($product !== null) {
+            try {
+                $product->delete();
+            } catch (PDOException $e) {
+                return redirect()->route('admin.product.index')->with('error', "Dòng rượu này đã được sử dụng! Không thể xoá!");
+            }
             if (file_exists(public_path('uploads/product/' . $product->hinh_anh))) {
                 unlink(public_path('uploads/product/' . $product->hinh_anh));
             }
-            $product->delete();
             return redirect()->route('admin.product.index')->with('message', "Xóa sản phẩm $product->ten_dr thành công");
         }
         return redirect()->route('admin.user.index')->with('error', 'Không tìm thấy sản phẩm này');
@@ -289,7 +294,7 @@ class ProductController extends AppController
         $brand_pro = DB::table('thuong_hieu')->orderby('ma_th', 'ASC')->get();
         // $comment_product = DB::table('comment')->where('id_Product', $product_id)->orderby('id_comment', 'desc')->get();
 
-        $product = Product::where('ma_dr',$id)->with(['loai_ruou','thuong_hieu'])->orderby('ma_dr', 'desc')->first();//,'coupon_details'
+        $product = Product::where('ma_dr',$id)->with(['loai_ruou','thuong_hieu','coupon_details'])->orderby('ma_dr', 'desc')->first();//,'coupon_details'
 
         return view('user.show_detail_product', compact('category', 'brand_pro', 'product'));
     }

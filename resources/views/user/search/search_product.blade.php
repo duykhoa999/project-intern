@@ -66,13 +66,29 @@
                                         <h3><a href="">{{$product->ten_dr}}</a></h3>
                                         <!-- <p> Mã số: 0020234</p> -->
                                         <div class="price-item">
-                                            <span class="price">{{number_format($product->gia).' VNĐ'}}</span>
-                                            <!-- <span class="price-discount">195,000đ </span> -->
+                                            @if (isset($product->coupon_details) && $product->coupon_details->phantram_km > 0  && $product->coupon_details->so_luong > 0)
+                                                <span
+                                                    class="price-discount">{{ number_format($product->gia) }}
+                                                    VNĐ</span>
+                                                <span
+                                                    class="price">{{ number_format($product->gia - ($product->gia * $product->coupon_details->phantram_km) / 100) }}
+                                                    VNĐ</span>
+                                            @else
+                                                <span
+                                                    class="price">{{ number_format($product->gia) . ' VNĐ' }}</span>
+                                            @endif
                                         </div>
 
                                         <div class="addtocart">
                                             <div class="shopping">
-                                                <button type="button" data-id_product="{{$product->ma_dr}}" name="add-to-cart" class="btn add-to-cart"> <i class="fas fa-shopping-cart"></i> ADD TO
+                                                <?php 
+                                                    $user = Session::get('user');
+                                                    $check = 1;
+                                                    if ($user === null) {
+                                                        $check = 0;
+                                                    }
+                                                ?>
+                                                <button type="button" data-check="{{ $check }}" data-id_product="{{$product->ma_dr}}" name="add-to-cart" class="btn add-to-cart"> <i class="fas fa-shopping-cart"></i> ADD TO
                                                     CART</button>
                                             </div>
                                         </div>

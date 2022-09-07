@@ -5,13 +5,17 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CompanyOrderController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ManufactureController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TrademarkController;
+use App\Http\Controllers\UserController;
+use App\Models\Coupon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +61,7 @@ Route::group(['middleware' => 'customer'], function() {
             // Route::post('/place-order', [CheckoutController::class, 'place_order'])->name('place_order');
             // Route::get('/hinh-thuc-thanh-toan', [CheckoutController::class, 'payment'])->name('payment');
         });
+        Route::post('/huy-don-hang', [OrderController::class, 'huy_don_hang'])->name('huy_don_hang');
     });
 });
 
@@ -113,6 +118,14 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customer.update');
     Route::delete('/customers/{id}', [CustomerController::class, 'delete'])->name('customer.delete');
 
+    //user
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/users', [UserController::class, 'store'])->name('user.store');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/users/{id}', [UserController::class, 'delete'])->name('user.delete');
+
     //Order
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
     Route::get('/orders/create', [OrderController::class, 'create'])->name('order.create');
@@ -131,5 +144,25 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], f
     Route::put('/company_orders/{id}', [CompanyOrderController::class, 'update'])->name('company_order.update');
     Route::delete('/company_orders/{id}', [CompanyOrderController::class, 'delete'])->name('company_order.delete');
     Route::post('/company_orders/add_detail/{id}', [CompanyOrderController::class, 'add_detail'])->name('company_order.add_detail');
-    Route::get('/saveSession', [CompanyOrderController::class, 'saveSession'])->name('company_order.saveSession');
+    Route::get('/saveSession/company_orders', [CompanyOrderController::class, 'saveSession'])->name('company_order.saveSession');
+
+    //Import
+    Route::get('/imports', [ImportController::class, 'index'])->name('import.index');
+    Route::get('/imports/create', [ImportController::class, 'create'])->name('import.create');
+    Route::post('/imports', [ImportController::class, 'store'])->name('import.store');
+    Route::get('/imports/{id}', [ImportController::class, 'show'])->name('import.show');
+    Route::put('/imports/{id}', [ImportController::class, 'update'])->name('import.update');
+    Route::delete('/imports/{id}', [ImportController::class, 'delete'])->name('import.delete');
+    Route::post('/imports/add_detail/{id}', [ImportController::class, 'add_detail'])->name('import.add_detail');
+    Route::get('/saveSession/imports', [ImportController::class, 'saveSession'])->name('import.saveSession');
+
+    //Coupon
+    Route::get('/coupons', [CouponController::class, 'index'])->name('coupon.index');
+    Route::get('/coupons/create', [CouponController::class, 'create'])->name('coupon.create');
+    // Route::post('/imports', [ImportController::class, 'store'])->name('import.store');
+    Route::get('/coupons/{id}', [CouponController::class, 'show'])->name('coupon.show');
+    // Route::put('/imports/{id}', [ImportController::class, 'update'])->coupon('import.update');
+    // Route::delete('/imports/{id}', [ImportController::class, 'delete'])->name('import.delete');
+    Route::post('/coupons/add_detail/{id}', [CouponController::class, 'add_detail'])->name('coupon.add_detail');
+    Route::get('/saveSession/coupons', [CouponController::class, 'saveSession'])->name('coupon.saveSession');
 });

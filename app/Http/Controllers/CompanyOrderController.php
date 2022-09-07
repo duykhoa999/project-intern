@@ -35,6 +35,7 @@ class CompanyOrderController extends AppController
      */
     public function index(Request $req)
     {
+        Session::forget('company_order');
         // $arr_filter = $this->getArrayFilter();
         // $today = Carbon::now('Asia/Ho_Chi_Minh')->format('d/m/Y');
         // $key_search = $req->input('key_search');
@@ -82,7 +83,7 @@ class CompanyOrderController extends AppController
             return redirect()->back()->with('error', 'Không thể lập đơn đặt hàng! Vui lòng kiểm tra lại!');
         }
 
-        return redirect()->back()->with('success', 'Lập đơn đặt hàng thành công!');
+        return redirect()->back()->with('message', 'Lập đơn đặt hàng thành công!');
 
     }
 
@@ -109,7 +110,7 @@ class CompanyOrderController extends AppController
             $all_product->withPath(route('admin.company_order.show', ['id' => $id]) . '?key_search=' . $key_search);
         }
 
-        return view('admin.company_order.show',compact('all_product', 'session_order', 'company_order', 'company_order_detail'));
+        return view('admin.company_order.show',compact('all_product', 'session_order', 'company_order', 'company_order_detail', 'key_search'));
     }
 
     /**
@@ -179,9 +180,10 @@ class CompanyOrderController extends AppController
         if (empty($data)) {
             $data = [];
         }
+        $gia = (double)preg_replace('/[^0-9.-]+/', "", $request->gia);
         $data[$request->ma_dr] = [
             'so_luong' => $request->so_luong,
-            'gia' => $request->gia
+            'gia' => $gia
         ];
 
         Session::put('company_order', $data);

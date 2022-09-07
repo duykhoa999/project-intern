@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Coupon;
+use App\Models\CouponDetail;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -109,6 +111,7 @@ class CheckoutController extends Controller
         if ($cart == true) {
             foreach ($cart as $key => $cart) {
                 $product = Product::where('ma_dr', $cart['id_products'])->first();
+                $coupon = CouponDetail::where('ma_dr', $cart['id_products'])->first();
                 if($product->sl_ton < $cart['product_qty'])
                 {
                     Session::put('message', 'Vui lòng chọn số lượng ít hơn'.$product->sl_ton);
@@ -122,6 +125,12 @@ class CheckoutController extends Controller
                 if($order_detail->save())
                 {
                     $product->sl_ton = $product->sl_ton - $cart['product_qty'];
+                    if (!empty($coupon) && $coupon->so_luong > 0) {
+                        $coupon->so_luong --;
+
+                        $coupon->save();
+                    }
+                    
                     $product->save();
                 }
             }

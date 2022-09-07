@@ -59,9 +59,30 @@ class User extends Authenticatable
      */
     protected $keyType = 'string';
     protected $table = 'nhan_vien';
+    public $timestamps = false; //set time to false
 
 	public function getByArrayFilter($filter)
 	{
 		return $this->query()->where($filter)->first();
 	}
+
+    public function getDataIndex($key_search)
+    {
+        $query = $this->query();
+        $query->where('ma_nv', '<>', 'NV001');
+        if(!is_null($key_search) && strlen($key_search) > 0)
+        {
+            $query->where(function($query) use ($key_search){
+                $query->orWhere('ho_ten', 'like', '%'.$key_search.'%');
+            });
+        }
+
+        try {
+            $result = $query->orderBy('ma_nv', 'DESC')->paginate(config('define.paginate.user_index'));
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $result;
+    }
 }

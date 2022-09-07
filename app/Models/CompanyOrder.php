@@ -29,7 +29,7 @@ class CompanyOrder extends Model
     protected $keyType = 'string';
 
     public function order_details() {
-        return $this->belongsTo(CompanyOrderDetail::class, 'ma_ddh', 'ma_ddh');
+        return $this->hasMany(CompanyOrderDetail::class, 'ma_ddh', 'ma_ddh');
     }
     public function manufacture()
     {

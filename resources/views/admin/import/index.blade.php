@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Đơn đặt hàng của cửa hàng
+                Danh sách phiếu nhập
             </div>
             {{-- <div class="row w3-res-tb">
             <form style="float: right" method="get" action="{{route('admin.order.index')}}" id="filterOrder">
@@ -33,8 +33,8 @@
             <div class="row w3-res-tb">
                 <a style="font-size: 18px"><i class="fa fa-plus-circle -aqua"
                         style="float:left; margin-left:5px;cursor: pointer;padding-bottom: 13px"
-                        onclick="window.location.assign('{{ route('admin.company_order.create') }}')"><span
-                            style="margin-left: 10px">Lập đơn đặt hàng</span></i></a>
+                        onclick="window.location.assign('{{ route('admin.import.create') }}')"><span
+                            style="margin-left: 10px">Lập phiếu nhập</span></i></a>
             </div>
             <div class="table-responsive">
                 <?php
@@ -48,50 +48,32 @@
                     <thead>
                         <tr>
 
-                            <th>Mã đơn hàng</th>
-                            <th>Tên nhà cung cấp</th>
+                            <th>Mã phiếu nhập</th>
                             <th>Nhân viên lập đơn</th>
-                            <th>Tổng Tiền</th>
-                            <th>Ngày đặt</th>
+                            <th>Ngày lập đơn</th>
+                            <th>Đơn đặt hàng</th>
 
                             <th style="width:90px;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $i = 0;
-                        @endphp
-                        @foreach ($all_order as $key => $ord)
-                            @php
-                                $i++;
-                            @endphp
+                        @foreach ($all_imports as $key => $item)
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.company_order.show', ['id' => $ord->ma_ddh]) }}"
+                                    <a href="{{ route('admin.import.show', ['id' => $item->ma_pn]) }}"
                                         class="active styling-edit" ui-toggle-class="">
-                                        {{ $ord->ma_ddh }}</a>
+                                        {{ $item->ma_pn }}</a>
                                 </td>
-                                <td>{{ $ord->manufacture->ten_ncc }}</td>
-                                <td>{{ $ord->staff->ho_ten }}</td>
+                                <td>{{ $item->staff->ho_ten }}</td>
+                                <td>{{ date('d-M-Y', strtotime($item->ngay_dat)) }}</td>
+                                <td>{{$item->ma_ddh}}</td>
                                 <td>
-                                    <?php
-                                        $total = 0;
-                                        if (!empty($ord->order_details)){
-                                            foreach($ord->order_details as $item) {
-                                                $total += $item->gia;
-                                            }
-                                        }
-                                    ?>
-                                    {{number_format($total, 0, ',', ',')}} VND
-                                </td>
-                                <td>{{ date('d-M-Y', strtotime($ord->ngay_dat)) }}</td>
-                                <td>
-                                    <a href="{{ route('admin.company_order.show', ['id' => $ord->ma_ddh]) }}"
+                                    <a href="{{ route('admin.import.show', ['id' => $item->ma_pn]) }}"
                                         class="active styling-edit" ui-toggle-class="">
                                         <i class="fa fa-eye text-success text-active"></i></a>
 
                                     <a onclick="return confirm('Bạn có chắc là muốn xóa đơn hàng này ko?')"
-                                        href="{{ URL::to('/delete-order/' . $ord->ma_ddh) }}" class="active styling-edit"
+                                        href="{{ URL::to('/delete-order/' . $item->ma_pn) }}" class="active styling-edit"
                                         ui-toggle-class="">
                                         <i class="fa fa-times text-danger text"></i>
                                     </a>
@@ -112,7 +94,7 @@
                 </div>
                 <div class="col-sm-7 text-right text-center-xs">
                     <ul class="pagination pagination-sm m-t-none m-b-none">
-                        {!! $all_order->links() !!}
+                        {!! $all_imports->links() !!}
                     </ul>
                 </div>
             </div>

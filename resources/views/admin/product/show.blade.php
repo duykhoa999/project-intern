@@ -36,7 +36,8 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Số lượng</label>
-                            <input type="number" data-validation="sl_ton" data-validation-error-msg="Làm ơn điền số lượng" name="sl_ton" class="form-control" id="convert_slug" value="{{$product->sl_ton ?? old('sl_ton')}}">
+                            <input type="number" name="sl_ton" class="form-control" id="convert_slug" value="{{$product->sl_ton ?? old('sl_ton')}}" disabled>
+                            <input type="hidden" data-validation="sl_ton" data-validation-error-msg="Làm ơn điền số lượng" name="sl_ton" class="form-control" id="convert_slug" value="{{$product->sl_ton ?? old('sl_ton')}}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Slug</label>

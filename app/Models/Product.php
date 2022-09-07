@@ -28,11 +28,8 @@ class Product extends Model
         return $this->belongsTo(Manufacture::class, 'ma_ncc', 'ma_ncc');
     }
     public function coupon_details() {
-        return $this->belongsTo(Coupon_details::class, 'ma_dr', 'ma_dr');
+        return $this->belongsTo(CouponDetail::class, 'ma_dr', 'ma_dr');
     }
-    // public function coupons() {
-    //     return $this->belongsToMany(Coupon::class,'chi_tiet_km', 'ma_km', 'ma_dr')->withPivot('ma_km');
-    // }
     public function order_details()
     {
         return $this->belongsTo(OrderDetail::class,'ma_dr','ma_dr');
@@ -44,6 +41,11 @@ class Product extends Model
         {
             $query->where(function($query) use ($key_search){
                 $query->where('ten_dr', 'like', '%'.$key_search.'%');
+            });
+        }
+        if(!empty($arr)) {
+            $query->where(function($query) use ($arr){
+                $query->whereIn('ma_dr', $arr);
             });
         }
 

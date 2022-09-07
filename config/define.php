@@ -56,6 +56,8 @@ return [
 			'category' =>'admin.category',
 			'order' =>'admin.order',
 			'company_order' =>'admin.company_order',
+			'import' =>'admin.import',
+			'coupon' =>'admin.coupon',
 		]
 	],
 	'regex' => [
@@ -78,6 +80,7 @@ return [
         'product_view'=>18,
         'manufactures_index'=>10,
         'company_order_index'=>10,
+        'import_index'=>10,
 	],
     'expires_time' => 5,
     'image_backup' => 'assets/images/avatar.png',

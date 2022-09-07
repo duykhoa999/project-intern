@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\CouponDetail;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -71,7 +73,8 @@ class OrderController extends AppController
     public function show($orderId = null)
     {
         $ho_ten_nv = '';
-        $order_by_id =OrderDetail::where('id_pd',$orderId)->with(['order','products','bills'])->orderby('id_pd', 'desc')->get();
+        $order_by_id = OrderDetail::where('id_pd',$orderId)->with(['order','products','bills'])->orderby('id_pd', 'desc')->get();
+
         if(isset($order_by_id['0']['order']['0']->ma_nv))
         {
             $employee = DB::table('nhan_vien')->where('ma_nv',$order_by_id['0']['order']['0']->ma_nv)->first();
@@ -92,6 +95,36 @@ class OrderController extends AppController
             return redirect()->route('admin.order.index');
         }
         $order->trang_thai = $data['order_status'];
+        $order->save();
+    }
+
+    // khách hàng Hủy Đơn hàng
+    public function huy_don_hang(Request $Request)
+    {
+        $data = $Request->all();
+        $order = Order::where('id_pd', $data['order_id'])->first();
+        if($order->trang_thai !=0)
+        {
+            Session::put('message', 'Đơn hàng đã được nhân viên xác nhận, không thể hủy đơn');
+            return redirect()->route('customer.index');
+        }
+        $order_details = OrderDetail::where('id_pd', $data['order_id'])->get();
+
+        foreach ($order_details as $key => $details) {
+            $product_details = Product::where('ma_dr', $details->ma_dr)->first();
+            $coupon = CouponDetail::where('ma_dr', $details->ma_dr)->first();
+
+            $new_quantity =  $product_details->sl_ton + $details->so_luong;
+            $product_details->sl_ton = $new_quantity;
+            if (!empty($coupon)) {
+                $coupon->so_luong++;
+
+                $coupon->save();
+            }
+            $product_details->save();
+        }
+        $order->trang_thai = 4;
+
         $order->save();
     }
 }
